@@ -14,8 +14,9 @@ var arr = new int[10];
 ### Jagged
 
 # Dynamic List
-## Example
 ```
+using System.Collections.Generic;
+
 // Can pass i32 for initial capacity, or another enumerable
 var list = new List<T>(); 
 
@@ -61,26 +62,135 @@ list.Clear();
 
 
 # Linked List
-## Example
 ```
+using System.Collections.Generic;
+
 var ll = new LinkedList<T>();
+
+// Create a linked list from an array
+string[] words = { "one", "two", "three" };
+var ll2 = new LinkedList<string>(words);
+
+// Add an item to the front of the list
+ll2.AddFirst("four");
+
+// Move a node from the front to the back
+LinkedListNode<string> front = ll2.First;
+ll2.RemoveFirst();
+ll2.AddLast(front);
+
+// Remove the last node
+ll2.RemoveLast();
+
+// Move a node from the back to the front
+LinkedListNode<string> back = ll2.Last;
+ll2.RemoveLast();
+ll2.AddFirst(back);
+
+// Find the last node containing the string "two"
+LinkedListNode<string> node = ll2.FindLast("two");
+
+// Add a node after or before another node, these will throw InvalidOperationException if the node already belongs to the list
+ll2.AddAfter(node, "abc");
+ll2.AddBefore(node, "def");
+
+// Remove a node by reference
+ll2.Remove(node);
+
+// Remove the first node with a specificed value
+ll2.Remove("three");
+
+// Copy linked list to array
+string[] copy = new string[ll2.Count];
+ll2.CopyTo(copy, 0);
+
+// Print elements
+foreach(string s in ll2)
+{
+    Console.WriteLine(s);
+}
+
+// Clear the list
+ll2.Clear();
+
 ```
 
 # Queue
-## Example
 ```
-var queue = new Queue<T>();
+using System.Collections.Generic;
+
+var queue = new Queue<string>();
+
+// Enqueue an item into the queue
+queue.Enqueue("one");
+
+// Print all elements of the queue
+foreach(var el in queue)
+{
+    Console.WriteLine(el);
+}
+
+// Dequeue the front element, InvalidOperationException if empty
+var el = queue.Dequeue();
+
+// Peek at the front of the queue, InvalidOperationException if empty
+var el2 = queue.Peek();
+
+// Copy queue to another queue
+var queue2 = new Queue<string>(queue.ToArray());
+
+// Check if queue contains element
+var contains = queue.Contains("two");
+
+// Clear the queue
+queue.Clear();
+
+// Try variants of Dequeue and Peek
+string item;
+var success = queue.TryDequeue(out item);
+success = queue.TryPeek(out item);
 ```
 
 # Stack
-## Example
 ```
-var stack = new Stack<T>();
+using System.Collections.Generic;
+
+var stack = new Stack<string>();
+
+// Push an element into the stack
+stack.Push("one");
+
+// Print all elements of the stack 
+foreach(var el in stack)
+{
+    Console.WriteLine(el);
+}
+
+// Pop an element off of the stack
+var el = stack.Pop();
+
+// Peek at the top of the stack
+var el2 = stack.Peek();
+
+// Copy stack to another stack
+var stack2 = new Stack<string>(stack.ToArray());
+
+// Check if stack contains element
+var contains = stack.Contains("two");
+
+// Clear the stack
+stack.Clear();
+
+// Try variants of Pop and Peek
+string item;
+var success = stack.TryPop(out item);
+success = stack.TryPeek(out item);
 ```
 
 # Dictionary
-## Example
 ```
+using System.Collections.Generic;
+
 var dict = new Dictionary<string, string>();
 
 // Add a key to the dictionary, throws ArgumentException if key already exists
@@ -108,7 +218,7 @@ foreach(KeyValuePair<string, string> kvp in dict)
 
 // Get only the values
 Dictionary<string, string>.ValueCollection vals = dict.Values;
-foreach(string v in values)
+foreach(string v in vals)
 {
     Console.WriteLine(v);
 }
@@ -129,15 +239,13 @@ dict.Remove("key");
 // Clear the dictionary
 dict.Clear();
 
-// TODO: Get or default
-
-
-
-
+// Get a key or return a default value if it doesn't exist
+var def = CollectionExtensions.GetValueOrDefault(dict, "key", "default");
+Console.WriteLine(def);
 ```
 
-# Set
-## Example
+# Sorted Set
+# Unsorted Set
 ```
 var set = new HashSet<T>();
 ```
