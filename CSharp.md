@@ -2,19 +2,34 @@
 
 # Common Datatypes
 # Math Utils
+```cs
+Math.Abs(f);
+Math.Ceiling(f);
+
+```
+
+
 # Arrays
 ## 1D
 ### Example
-```
+```cs
 var arr = new int[10];
 ```
 
 ## 2D
 ### Square
+```cs
+int[,] arr = new int[5, 10];
+int rowsOrHeight = arr.GetLength(0);
+int colsOrLength = arr.GetLength(1);
+int numDimensions = arr.Rank;
+
+int totalEls = arr.Length;
+```
 ### Jagged
 
 # Dynamic List
-```
+```cs
 using System.Collections.Generic;
 
 // Can pass i32 for initial capacity, or another enumerable
@@ -62,7 +77,7 @@ list.Clear();
 
 
 # Linked List
-```
+```cs
 using System.Collections.Generic;
 
 var ll = new LinkedList<T>();
@@ -116,7 +131,7 @@ ll2.Clear();
 ```
 
 # Queue
-```
+```cs
 using System.Collections.Generic;
 
 var queue = new Queue<string>();
@@ -152,7 +167,7 @@ success = queue.TryPeek(out item);
 ```
 
 # Stack
-```
+```cs
 using System.Collections.Generic;
 
 var stack = new Stack<string>();
@@ -188,7 +203,7 @@ success = stack.TryPeek(out item);
 ```
 
 # Dictionary
-```
+```cs
 using System.Collections.Generic;
 
 var dict = new Dictionary<string, string>();
@@ -246,7 +261,7 @@ Console.WriteLine(def);
 
 # Sorted Set
 # Unsorted Set
-```
+```cs
 var set = new HashSet<T>();
 ```
 
