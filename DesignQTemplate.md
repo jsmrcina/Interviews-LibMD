@@ -1,0 +1,31 @@
+# Interview Template
+- Write down the problem
+- Clarify
+    - Number of users / TX
+    - Frequency of use / TX
+    - Retention
+    - Queries per second if applicable
+    - Do a quick size estimate
+    - Do a quick speed estimate
+- Considerations:
+    - Scaling up versus out
+    - Load balancing and how we assign to web servers
+    - Rate limiting
+    - Database kinds (SQL / noSQL / etc.)
+    - Caches (Redis, etc)
+    - Message queues
+    - Replication
+    - Consistency, Availability, and Partition Management for DBs
+        - Consider eventual consistency
+        - DBs that provide this like Cassandra, Dynamo, etc.
+    - CDNs for storing 
+    - Hashing of IDs
+        - Which kind do we want to use
+    - Datacenter considerations
+        - GeoIP
+    - Relationships (for user based things)
+        - E.g. GraphDB
+    - Telemetry
+        - Logging, metrics, collection
+- Design proposal
+- Deep dive

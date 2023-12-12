@@ -1,0 +1,11 @@
+# Interview Template
+- Write down the problem
+- Clarify
+- Other considerations (threading, async, etc.)
+- Small Example
+- Edges
+- Assumptions
+- Pseudo-code
+- Runtime
+- Space considerations
+- Walking a more complex case
