@@ -273,5 +273,12 @@ var set = new HashSet<T>();
 # Threading (Pools)
 # Enumeration
 # Async
+# Testing Framework
+# Object Comparison
+## IComparer
+
+
+
+## IEquatable
 # Additional Language Specific Topics
 ## LINQ
