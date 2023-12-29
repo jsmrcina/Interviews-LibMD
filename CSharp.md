@@ -263,6 +263,45 @@ Console.WriteLine(def);
 # Unsorted Set
 ```cs
 var set = new HashSet<T>();
+
+// Union with another collection (set union coll)
+set.UnionWith(coll);
+
+// Intersect with another collection (set intersect coll)
+set.IntersectWith(coll);
+
+// Subtract another collection from the set (set - coll)
+set.ExceptWith(coll);
+
+// Exclusive or with another collection (set xor coll)
+set.SymmetricExceptWith(coll);
+
+// Add element to set, returns false is element is already present
+set.Add(x);
+
+// Clears the set
+set.Clear();
+
+// Checks if set contains X
+set.Contains(x);
+
+// Ensures set capacity is at least new_cap
+set.EnsureCapacity(new_cap);
+
+// Is set a subset of coll, but not equal to coll
+set.IsProperSubsetOf(coll);
+
+// Is set a supserset of coll, but not equal to coll
+set.IsProperSupersetOf(coll);
+
+// Is set a subset or equal to coll
+set.IsSubsetOf(coll);
+
+// Is set a superset or equal to coll
+set.IsSupersetOf(coll);
+
+// Returns true if set and coll share at least one common element
+set.Overlaps(coll);
 ```
 
 # Bit Arrays
