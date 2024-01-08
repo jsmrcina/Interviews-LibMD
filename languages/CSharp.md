@@ -75,7 +75,6 @@ foreach(var item in list)
 list.Clear();
 ```
 
-
 # Linked List
 ```cs
 using System.Collections.Generic;
