@@ -1,5 +1,8 @@
 # C++
 # Common Datatypes
+
+
+
 # Math Utils
 # Arrays
 ## 1D
@@ -295,12 +298,142 @@ map1.clear();
 # Unsorted Set
 # Bit Arrays
 # Collection Utils
-# Threading (Pools)
+# Threading
+```cpp
+std::vector<uint8_t> written;
+std::vector<uint8_t> read;
+BinaryStream b(256, 100);
+
+// Create two suspended threads that are passed the arguments as shown as references
+std::jthread t1(WriteFunc, std::ref(b), std::ref(written));
+std::jthread t2(ReadFunc, std::ref(b), std::ref(read));
+
+// Wait on the threads to exit
+t1.join();
+t2.join();
+
+// You can also do cancellation with jthreads (request a stop and then wait for join)
+std::jthread sleepy_worker([](std::stop_token stoken)
+{
+    for (int i = 10; i; --i)
+    {
+        std::this_thread::sleep_for(300ms);
+        if (stoken.stop_requested())
+        {
+            std::cout << "Sleepy worker is requested to stop\n";
+            return;
+        }
+        std::cout << "Sleepy worker goes back to sleep\n";
+    }
+});
+
+sleepy_worker.request_stop();
+sleepy_worker.join();
+
+// There is no thread pool built-in to standard library, but you can use something like https://github.com/bshoshany/thread-pool
+```
+
+```cpp
+// For thread safety, you can use mutexes + locks
+#include <mutex>
+
+// A mutex that can be taken recursively by a thread
+std::recursive_mutex _mutex;
+
+// A unique RAII lock that will release once it goes out of scope
+std::unique_lock<std::recursive_mutex> _lock(_mutex);
+```
+
 # Enumeration
+## Spans
+```cpp
+#include <span>
+
+// Make a span from an array starting at position total_writte_bytes and being of length of the remaining data past total_remaining bytes
+std::span(data + total_written_bytes, std::size(data) - total_written_bytes)
+
+// Function which accepts a span
+uint32_t Write(std::span<uint8_t> data, uint32_t start_pos)
+
+// Spans have two members, the data and the size
+const uint8* d = data.data()
+const size_t s = data.size()
+```
+# Random
+```cpp
+#include <random>
+std::random_device r;
+std::default_random_engine e1(r()); // Usually Mersenne 19937
+std::uniform_int_distribution<int> uniform_dist(0, std::numeric_limits<uint8_t>::max());
+```
+# Sleeping
+```cpp
+#include <chrono>
+std::this_thread::sleep_for(std::chrono::milliseconds(10));
+```
 # Async
 # Testing Framework
 # Object Comparison
+# Asserts
+```cpp
+#include <cassert> // For C-style assert
+
+// Depends on NDEBUG macro
+assert(1 == 1, "This should never fail");
+
+// Prefer this in C++ as it is not a macro and thus has less quirks
+static_assert(1 == 1, "This should never fail");
+```
 # Additional Language Specific Topics
-# Type Slicing
-# Operator Overloads
-# Templates
+## Type Slicing
+## Operator Overloads
+See [Operator Overloading Signatures](/languages/CPP_operator_overloads.md)
+## Templates
+## Moving and additional constructors
+### Additional Constructors
+```cpp
+// Copy
+BinaryBuffer(const BinaryBuffer& other) = delete;
+
+// Move
+BinaryBuffer(BinaryBuffer&& other) = delete;
+```
+### Moving
+## Virtual functions
+## Numeric limits
+| Type                                                    | Availability    |
+|---------------------------------------------------------|-----------------|
+|   template<> class numeric_limits\<bool>;               |                 |
+|   template<> class numeric_limits\<char>;               |                 |
+|   template<> class numeric_limits\<signed char>;        |                 |
+|   template<> class numeric_limits\<unsigned char>;      |                 |
+|   template<> class numeric_limits\<wchar_t>;            |                 |
+|   template<> class numeric_limits\<char8_t>;            |  (since C++20)  |
+|   template<> class numeric_limits\<char16_t>;           |  (since C++11)  |
+|   template<> class numeric_limits\<char32_t>;           |  (since C++11)  |
+|   template<> class numeric_limits\<short>;              |                 |
+|   template<> class numeric_limits\<unsigned short>;     |                 |
+|   template<> class numeric_limits\<int>;                |                 |
+|   template<> class numeric_limits\<unsigned int>;       |                 |
+|   template<> class numeric_limits\<long>;               |                 |
+|   template<> class numeric_limits\<unsigned long>;      |                 |
+|   template<> class numeric_limits\<long long>;          |  (since C++11)  |
+|   template<> class numeric_limits\<unsigned long long>; |  (since C++11)  |
+|   template<> class numeric_limits\<float>;              |                 |
+|   template<> class numeric_limits\<double>;             |                 |
+|   template<> class numeric_limits\<long double>;        |                 |
+## PrintF
+### Format Specifiers
+| Specifier | Type                               |
+|-----------|------------------------------------|
+| %c        | character                          |
+| %d        | decimal (integer) number (base 10) |
+| %e        | exponential floating-point number  |
+| %f        | floating-point number              |
+| %i        | integer (base 10)                  |
+| %o        | octal number (base 8)              |
+| %s        | a string of characters             |
+| %u        | unsigned decimal (integer) number  |
+| %x        | number in hexadecimal (base 16)    |
+| %%        | print a percent sign               |
+| \%        | print a percent sign               |

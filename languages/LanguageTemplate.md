@@ -13,9 +13,12 @@
 # Unsorted Set
 # Bit Arrays
 # Collection Utils
-# Threading (Pools)
+# Threading
 # Enumeration
+# Random
+# Sleeping
 # Async
 # Testing Framework
 # Object Comparison
+# Asserts
 # Additional Language Specific Topics

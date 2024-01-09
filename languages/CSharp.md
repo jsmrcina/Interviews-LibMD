@@ -310,13 +310,13 @@ set.Overlaps(coll);
 # Collection Utils
 # Threading (Pools)
 # Enumeration
+# Random
+# Sleeping
 # Async
 # Testing Framework
 # Object Comparison
 ## IComparer
-
-
-
 ## IEquatable
+# Asserts
 # Additional Language Specific Topics
 ## LINQ
