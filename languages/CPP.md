@@ -1,9 +1,45 @@
 # C++
 # Common Datatypes
 
-
+| Data Type | Size (32-bit system) | Size (64-bit system) | Description |
+|-----------|----------------------|----------------------|-------------|
+| `bool`    | 1 byte               | 1 byte               | Boolean value (true or false) |
+| `char`    | 1 byte               | 1 byte               | Character or small integer |
+| `int`     | 4 bytes              | 4 bytes              | Integer |
+| `float`   | 4 bytes              | 4 bytes              | Single-precision floating-point |
+| `double`  | 8 bytes              | 8 bytes              | Double-precision floating-point |
+| `short`   | 2 bytes              | 2 bytes              | Short integer |
+| `long`    | 4 bytes              | 8 bytes              | Long integer |
+| `long long` | 8 bytes            | 8 bytes              | Longer integer |
+| `size_t`  | 4 bytes              | 8 bytes              | Unsigned integer type (for sizes) |
+| `wchar_t` | 2 or 4 bytes         | 2 or 4 bytes         | Wide character |
+| `void*`   | 4 bytes              | 8 bytes              | Pointer (any type) |
 
 # Math Utils
+
+| Function | Description | Sample Usage |
+|----------|-------------|--------------|
+| `std::abs` | Returns the absolute value of a number | `std::abs(-5) // returns 5` |
+| `std::sqrt` | Calculates the square root of a number | `std::sqrt(16) // returns 4` |
+| `std::pow` | Raises a number to a specified power | `std::pow(2, 3) // returns 8` |
+| `std::exp` | Calculates the exponential function \( e^x \) | `std::exp(1) // returns 2.71828` |
+| `std::log` | Calculates the natural logarithm (base \( e \)) | `std::log(2.71828) // returns 1` |
+| `std::log10` | Calculates the logarithm to base 10 | `std::log10(100) // returns 2` |
+| `std::sin` | Calculates the sine of an angle (in radians) | `std::sin(3.14159 / 2) // returns 1` |
+| `std::cos` | Calculates the cosine of an angle (in radians) | `std::cos(3.14159) // returns -1` |
+| `std::tan` | Calculates the tangent of an angle (in radians) | `std::tan(3.14159 / 4) // returns 1` |
+| `std::asin` | Calculates the arcsine (in radians) | `std::asin(1) // returns 1.5708` |
+| `std::acos` | Calculates the arccosine (in radians) | `std::acos(1) // returns 0` |
+| `std::atan` | Calculates the arctangent (in radians) | `std::atan(1) // returns 0.785398` |
+| `std::sinh` | Calculates the hyperbolic sine | `std::sinh(1) // returns 1.1752` |
+| `std::cosh` | Calculates the hyperbolic cosine | `std::cosh(1) // returns 1.54308` |
+| `std::tanh` | Calculates the hyperbolic tangent | `std::tanh(1) // returns 0.761594` |
+| `std::ceil` | Rounds a number up to the nearest integer | `std::ceil(2.3) // returns 3` |
+| `std::floor` | Rounds a number down to the nearest integer | `std::floor(2.7) // returns 2` |
+| `std::round` | Rounds a number to the nearest integer | `std::round(2.5) // returns 3` |
+| `std::fmod` | Computes the remainder of the division of two floating-point numbers | `std::fmod(5.3, 2) // returns 1.3` |
+| `std::hypot` | Calculates the hypotenuse of a right-angled triangle | `std::hypot(3, 4) // returns 5` |
+
 # Arrays
 ## 1D
 ```cpp
@@ -295,8 +331,25 @@ map1.clear();
 ```
 
 # Sorted Set
-# Unsorted Set
+# Unsorted Seti
 # Bit Arrays
+# Heaps
+```cpp
+#include <queue>
+
+// Creates a min heap
+priority_queue <int, vector<int>, greater<int> > pq; 
+pq.push(5); 
+pq.push(1); 
+pq.push(10); 
+pq.push(30); 
+pq.push(20);
+
+// Creates a max heap
+priority_queue <int, vector<int>> pq2;
+
+// Note that pq does not know how to re-heapify when an internal element is modified
+```
 # Collection Utils
 # Threading
 ```cpp
@@ -365,6 +418,7 @@ const size_t s = data.size()
 std::random_device r;
 std::default_random_engine e1(r()); // Usually Mersenne 19937
 std::uniform_int_distribution<int> uniform_dist(0, std::numeric_limits<uint8_t>::max());
+int x = uniform_dist(e1);
 ```
 # Sleeping
 ```cpp
@@ -389,6 +443,80 @@ static_assert(1 == 1, "This should never fail");
 ## Operator Overloads
 See [Operator Overloading Signatures](/languages/CPP_operator_overloads.md)
 ## Templates
+
+### Function Template
+Function templates allow you to create functions that can operate with different data types. Here's a simple example of a function template to find the maximum of two values:
+
+```cpp
+template<typename T>
+T max(T x, T y) {
+    return (x > y) ? x : y;
+}
+// Usage:
+// max<int>(3, 5);
+// max<double>(3.5, 2.5);
+```
+
+### Class Template
+Class templates are useful for defining classes that can handle data of any type. Here's an example of a generic `Box` class that can store a value of any type:
+
+```cpp
+template<typename T>
+class Box {
+public:
+    T value;
+    Box(T val) : value(val) {}
+    T getValue() { return value; }
+};
+// Usage:
+// Box<int> intBox(10);
+// Box<double> doubleBox(3.14);
+```
+
+### Variadic Template
+Variadic templates allow functions to accept any number of arguments. Here's an example that prints all given arguments:
+
+```cpp
+template<typename... Args>
+void printer(Args... args) {
+    (std::cout << ... << args) << std::endl;
+}
+// Usage:
+// printer(1, 2, 3, "Hello", 3.14);
+```
+
+### Template Specialization
+Template specialization allows you to define a specific implementation of a template for a particular data type. Here's an example of specializing a `min` function for `const char*`:
+
+```cpp
+template<typename T>
+T min(T x, T y) {
+    return (x < y) ? x : y;
+}
+
+template<>
+const char* min<const char*>(const char* x, const char* y) {
+    return strcmp(x, y) < 0 ? x : y;
+}
+// Usage:
+// min<int>(2, 3);
+// min<const char*>("abc", "def");
+```
+
+### Template Template Parameter
+Template template parameters allow you to pass a template as a parameter to another template. Here's an example using a container class:
+
+```cpp
+template<template<typename> class Container, typename T>
+class MyClass {
+    Container<T> data;
+};
+// Usage with a template class like std::vector:
+// MyClass<std::vector, int> myClassInstance;
+```
+
+Each of these examples demonstrates different aspects of C++ templates, highlighting their flexibility and power in generic programming. Templates are central to writing efficient and reusable code in C++.
+
 ## Moving and additional constructors
 ### Additional Constructors
 ```cpp
@@ -403,25 +531,32 @@ BinaryBuffer(BinaryBuffer&& other) = delete;
 ## Numeric limits
 | Type                                                    | Availability    |
 |---------------------------------------------------------|-----------------|
-|   template<> class numeric_limits\<bool>;               |                 |
-|   template<> class numeric_limits\<char>;               |                 |
-|   template<> class numeric_limits\<signed char>;        |                 |
-|   template<> class numeric_limits\<unsigned char>;      |                 |
-|   template<> class numeric_limits\<wchar_t>;            |                 |
-|   template<> class numeric_limits\<char8_t>;            |  (since C++20)  |
-|   template<> class numeric_limits\<char16_t>;           |  (since C++11)  |
-|   template<> class numeric_limits\<char32_t>;           |  (since C++11)  |
-|   template<> class numeric_limits\<short>;              |                 |
-|   template<> class numeric_limits\<unsigned short>;     |                 |
-|   template<> class numeric_limits\<int>;                |                 |
-|   template<> class numeric_limits\<unsigned int>;       |                 |
-|   template<> class numeric_limits\<long>;               |                 |
-|   template<> class numeric_limits\<unsigned long>;      |                 |
-|   template<> class numeric_limits\<long long>;          |  (since C++11)  |
-|   template<> class numeric_limits\<unsigned long long>; |  (since C++11)  |
-|   template<> class numeric_limits\<float>;              |                 |
-|   template<> class numeric_limits\<double>;             |                 |
-|   template<> class numeric_limits\<long double>;        |                 |
+|   ```template<> class numeric_limits<bool>;```               |                 |
+|   ```template<> class numeric_limits<char>;```             |                 |
+|   ```template<> class numeric_limits<signed char>;```        |                 |
+|   ```template<> class numeric_limits<unsigned char>;```      |                 |
+|   ```template<> class numeric_limits<wchar_t>;```          |                 |
+|   ```template<> class numeric_limits<char8_t>;```          |  (since C++20)  |
+|   ```template<> class numeric_limits<char16_t>;```         |  (since C++11)  |
+|   ```template<> class numeric_limits<char32_t>;```         |  (since C++11)  |
+|   ```template<> class numeric_limits<short>;```            |                 |
+|   ```template<> class numeric_limits<unsigned short>;```     |                 |
+|   ```template<> class numeric_limits<int>;```              |                 |
+|   ```template<> class numeric_limits<unsigned int>;```       |                 |
+|   ```template<> class numeric_limits<long>;```             |                 |
+|   ```template<> class numeric_limits<unsigned long>;```      |                 |
+|   ```template<> class numeric_limits<long long>;```          |  (since C++11)  |
+|   ```template<> class numeric_limits<unsigned long long>;``` |  (since C++11)  |
+|   ```template<> class numeric_limits<float>;```            |                 |
+|   ```template<> class numeric_limits<double>;```           |                 |
+|   ```template<> class numeric_limits<long double>;```        |                 |
+
+For example, to find the max value, you can use:
+
+```cpp
+int max_value = std::numeric_limits<int>::max;
+```
+
 ## PrintF
 ### Format Specifiers
 | Specifier | Type                               |
