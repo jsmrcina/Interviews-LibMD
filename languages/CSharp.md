@@ -1,7 +1,7 @@
-# C#
+## C#
 
-# Common Datatypes
-# Math Utils
+## Common Datatypes
+## Math Utils
 ```cs
 Math.Abs(f);
 Math.Ceiling(f);
@@ -9,15 +9,15 @@ Math.Ceiling(f);
 ```
 
 
-# Arrays
-## 1D
-### Example
+## Arrays
+### 1D
+#### Example
 ```cs
 var arr = new int[10];
 ```
 
-## 2D
-### Square
+### 2D
+#### Square
 ```cs
 int[,] arr = new int[5, 10];
 int rowsOrHeight = arr.GetLength(0);
@@ -26,9 +26,9 @@ int numDimensions = arr.Rank;
 
 int totalEls = arr.Length;
 ```
-### Jagged
+#### Jagged
 
-# Dynamic List
+## Dynamic List
 ```cs
 using System.Collections.Generic;
 
@@ -75,7 +75,7 @@ foreach(var item in list)
 list.Clear();
 ```
 
-# Linked List
+## Linked List
 ```cs
 using System.Collections.Generic;
 
@@ -129,7 +129,7 @@ ll2.Clear();
 
 ```
 
-# Queue
+## Queue
 ```cs
 using System.Collections.Generic;
 
@@ -165,7 +165,7 @@ var success = queue.TryDequeue(out item);
 success = queue.TryPeek(out item);
 ```
 
-# Stack
+## Stack
 ```cs
 using System.Collections.Generic;
 
@@ -201,7 +201,7 @@ var success = stack.TryPop(out item);
 success = stack.TryPeek(out item);
 ```
 
-# Dictionary
+## Dictionary
 ```cs
 using System.Collections.Generic;
 
@@ -258,8 +258,8 @@ var def = CollectionExtensions.GetValueOrDefault(dict, "key", "default");
 Console.WriteLine(def);
 ```
 
-# Sorted Set
-# Unsorted Set
+## Sorted Set
+## Unsorted Set
 ```cs
 var set = new HashSet<T>();
 
@@ -303,20 +303,20 @@ set.IsSupersetOf(coll);
 set.Overlaps(coll);
 ```
 
-# Bit Arrays
-# Object Comparison
-## IEquatable
+## Bit Arrays
+## Object Comparison
+### IEquatable
 
-# Collection Utils
-# Threading (Pools)
-# Enumeration
-# Random
-# Sleeping
-# Async
-# Testing Framework
-# Object Comparison
-## IComparer
-## IEquatable
-# Asserts
-# Additional Language Specific Topics
-## LINQ
+## Collection Utils
+## Threading (Pools)
+## Enumeration
+## Random
+## Sleeping
+## Async
+## Testing Framework
+## Object Comparison
+### IComparer
+### IEquatable
+## Asserts
+## Additional Language Specific Topics
+### LINQ

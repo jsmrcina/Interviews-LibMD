@@ -1,5 +1,5 @@
 # C++
-# Common Datatypes
+## Common Datatypes
 
 | Data Type | Size (32-bit system) | Size (64-bit system) | Description |
 |-----------|----------------------|----------------------|-------------|
@@ -15,7 +15,7 @@
 | `wchar_t` | 2 or 4 bytes         | 2 or 4 bytes         | Wide character |
 | `void*`   | 4 bytes              | 8 bytes              | Pointer (any type) |
 
-# Math Utils
+## Math Utils
 
 | Function | Description | Sample Usage |
 |----------|-------------|--------------|
@@ -40,8 +40,8 @@
 | `std::fmod` | Computes the remainder of the division of two floating-point numbers | `std::fmod(5.3, 2) // returns 1.3` |
 | `std::hypot` | Calculates the hypotenuse of a right-angled triangle | `std::hypot(3, 4) // returns 5` |
 
-# Arrays
-## 1D
+## Arrays
+### 1D
 ```cpp
 #include <memory>
 
@@ -54,7 +54,7 @@ delete[](arr2);
 std::unique_ptr<int[]> arr3 = std::make_unique<int[]>(30);
 arr3[1] = 0;
 ```
-## 2D
+### 2D
 ```cpp
 #include <memory>
 
@@ -74,7 +74,7 @@ arr6[0] = std::make_unique<int[]>(3);
 arr6[1] = std::make_unique<int[]>(3);
 arr6[2] = std::make_unique<int[]>(3);
 ```
-# Dynamic List
+## Dynamic List
 ```cpp
 #include <algorithm>
 #include <string>
@@ -138,7 +138,7 @@ vec.insert(std::next(vec.begin(), 2), 5);
 // Empties the list
 vec.clear();
 ```
-# Linked List
+## Linked List
 ```cpp
 #include <algorithm>
 #include <string>
@@ -198,7 +198,7 @@ auto vec = std::vector<std::string>(words.begin(), words.end());
 // Empty the list
 words.clear();
 ```
-# Queue
+## Queue
 ```cpp
 #include <algorithm>
 #include <string>
@@ -241,7 +241,7 @@ if(itr != q2.cend())
 // Clear the queue
 q2.clear();
 ```
-# Stack
+## Stack
 ```cpp
 #include <string>
 #include <stack>
@@ -259,7 +259,7 @@ s.size();
 // Check if empty
 s.empty();
 ```
-# Dictionary
+## Dictionary
 ```cpp
 struct complex
 {
@@ -295,7 +295,7 @@ auto print_map = [](const auto& m)
 };
 
 // Create a map (Note: they key must be trivially hashable and comparable via ==, or you have to provide your own)
-map1_type map1;
+std::unordered_map<int, std::string> map1;
 map1.emplace(1, "abc");
 
 // Using a custom hash function, and defining a custom == operator
@@ -306,8 +306,8 @@ map2.emplace(complex { .a = 5, .b = 7 }, "abc");
 auto [itr, success] = map1.emplace(1, "abc");
 
 // Using std::tie for return values is useful too
-map1_type::key_type key;
-map1_type::mapped_type value;
+decltype(map1)::key_type key;
+decltype(map1)::mapped_type value;
 std::tie(key, value) = (*map1.begin());
 
 // Loop over keys
@@ -330,10 +330,117 @@ map1.clear();
 // See https://stackoverflow.com/questions/40159732/return-other-value-if-key-not-found-in-the-map
 ```
 
-# Sorted Set
-# Unsorted Seti
-# Bit Arrays
-# Heaps
+## Sorted Set
+```cpp
+template<typename C>
+void print(C c)
+{
+    for(const auto& k : c)
+    {
+        std::cout << k << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main()
+{
+    std::set<std::string> sorted_set1;
+    std::set<std::string> sorted_set2;
+
+    sorted_set1.emplace("a");
+    sorted_set1.emplace("b");
+    sorted_set1.emplace("c");
+
+    sorted_set2.emplace("d");
+    sorted_set2.emplace("e");
+    sorted_set2.emplace("f");
+
+    // Merge two sets into one
+    sorted_set1.merge(sorted_set2);
+    print(sorted_set1); // a b c d e f
+    print(sorted_set2); // <empty>
+
+    // Swap two sets
+    sorted_set2.swap(sorted_set1);
+    print(sorted_set1); // <empty>
+    print(sorted_set2); // a b c d e f
+
+    // Get size
+    printf("%zd\n", sorted_set2.size());
+
+    // Union (OR) two sets (only works for sorted set)
+    // There are equivalent operations in <algorithm> for difference (subtract), intersection (AND), symmetric_difference (XOR), and includes (subset)
+    decltype(sorted_set1) output_set;
+    sorted_set1.emplace("a");
+    sorted_set1.emplace("h");
+    std::set_union(sorted_set1.begin(), sorted_set1.end(), sorted_set2.begin(), sorted_set2.end(), std::inserter(output_set, output_set.begin()));
+    print(output_set); // a b c d e f h
+
+    // Clears the set
+    output_set.clear();
+}
+```
+
+## Unsorted Set
+```cpp
+template<typename C>
+void print(C c)
+{
+    for(const auto& k : c)
+    {
+        std::cout << k << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main()
+{
+    std::unordered_set<int> unsorted_set;
+    std::multiset<std::string> multi_set;
+
+    unsorted_set.emplace(4);
+    unsorted_set.emplace(1);
+    unsorted_set.emplace(2);
+    unsorted_set.emplace(3);
+    unsorted_set.emplace(4);
+    print(unsorted_set); // 4 1 2 3
+
+    // Remove an element
+    unsorted_set.erase(4);
+    print(unsorted_set); // 1 2 3
+
+    // Returns an iterator to the element, or unsorted_set.end() if the element is not found
+    // Used for 'contains'. You can also use unsorted_set.count(key) == 0 or 1, or .contains(key) since C++20
+    auto itr = unsorted_set.find(2);
+    printf("%d\n", *itr);
+}
+```
+## Bit Arrays
+```cpp
+// Fixed size. For variable size, you can use the template specialization for std::vector<bool> which
+// guarantees that each element is one bit.
+
+std::bitset<20> s;
+s[5] = 1;
+s[10] = 1;
+printf("%d\n", s.all()); // 0
+printf("%d\n", s.any()); // 1
+printf("%d\n", s.none()); // 0
+printf("%zd\n", s.count()); // 2
+printf("%d\n", s.test(5)); // Tests 5th bit, 1
+printf("%d\n", s.test(6)); // Tests 5th bit, 0
+s.flip(7); // Flip a single bit
+s.flip(); // Flip all the bits
+printf("%s\n", s.to_string().c_str()); // 11111111101101011111, note that bit 0 is last (lsb)
+printf("%llu\n", s.to_ullong()); // 1047391 == 11111111101101011111, note that bit 0 is last (lsb)
+s.set(11); // Set bit 11 to true
+s.set(11, false); // Sets bit 11 to false
+s.reset(); // Set all bits to zero
+
+// Supports binary AND (&), OR (|), XOR (^) and NOT (!)
+// Supports shift left and shift right (<< and >>)
+```
+## Heaps
 ```cpp
 #include <queue>
 
@@ -350,8 +457,8 @@ priority_queue <int, vector<int>> pq2;
 
 // Note that pq does not know how to re-heapify when an internal element is modified
 ```
-# Collection Utils
-# Threading
+## Collection Utils
+## Threading
 ```cpp
 std::vector<uint8_t> written;
 std::vector<uint8_t> read;
@@ -397,8 +504,8 @@ std::recursive_mutex _mutex;
 std::unique_lock<std::recursive_mutex> _lock(_mutex);
 ```
 
-# Enumeration
-## Spans
+## Enumeration
+### Spans
 ```cpp
 #include <span>
 
@@ -412,23 +519,26 @@ uint32_t Write(std::span<uint8_t> data, uint32_t start_pos)
 const uint8* d = data.data()
 const size_t s = data.size()
 ```
-# Random
+## Random
 ```cpp
 #include <random>
 std::random_device r;
 std::default_random_engine e1(r()); // Usually Mersenne 19937
 std::uniform_int_distribution<int> uniform_dist(0, std::numeric_limits<uint8_t>::max());
 int x = uniform_dist(e1);
+
+// TODO: Add various distribution types
+
 ```
-# Sleeping
+## Sleeping
 ```cpp
 #include <chrono>
 std::this_thread::sleep_for(std::chrono::milliseconds(10));
 ```
-# Async
-# Testing Framework
-# Object Comparison
-# Asserts
+## Async
+## Testing Framework
+## Object Comparison
+## Asserts
 ```cpp
 #include <cassert> // For C-style assert
 
@@ -438,13 +548,21 @@ assert(1 == 1, "This should never fail");
 // Prefer this in C++ as it is not a macro and thus has less quirks
 static_assert(1 == 1, "This should never fail");
 ```
-# Additional Language Specific Topics
-## Type Slicing
-## Operator Overloads
-See [Operator Overloading Signatures](/languages/CPP_operator_overloads.md)
-## Templates
+## Additional Language Specific Topics
+### Function pointer syntax
 
-### Function Template
+
+
+### Packing
+
+
+
+### Type Slicing
+### Operator Overloads
+See [Operator Overloading Signatures](/languages/CPP_operator_overloads.md)
+### Templates
+
+#### Function Template
 Function templates allow you to create functions that can operate with different data types. Here's a simple example of a function template to find the maximum of two values:
 
 ```cpp
@@ -457,7 +575,7 @@ T max(T x, T y) {
 // max<double>(3.5, 2.5);
 ```
 
-### Class Template
+#### Class Template
 Class templates are useful for defining classes that can handle data of any type. Here's an example of a generic `Box` class that can store a value of any type:
 
 ```cpp
@@ -473,7 +591,7 @@ public:
 // Box<double> doubleBox(3.14);
 ```
 
-### Variadic Template
+#### Variadic Template
 Variadic templates allow functions to accept any number of arguments. Here's an example that prints all given arguments:
 
 ```cpp
@@ -485,7 +603,7 @@ void printer(Args... args) {
 // printer(1, 2, 3, "Hello", 3.14);
 ```
 
-### Template Specialization
+#### Template Specialization
 Template specialization allows you to define a specific implementation of a template for a particular data type. Here's an example of specializing a `min` function for `const char*`:
 
 ```cpp
@@ -503,7 +621,7 @@ const char* min<const char*>(const char* x, const char* y) {
 // min<const char*>("abc", "def");
 ```
 
-### Template Template Parameter
+#### Template Template Parameter
 Template template parameters allow you to pass a template as a parameter to another template. Here's an example using a container class:
 
 ```cpp
@@ -517,18 +635,18 @@ class MyClass {
 
 Each of these examples demonstrates different aspects of C++ templates, highlighting their flexibility and power in generic programming. Templates are central to writing efficient and reusable code in C++.
 
-## Moving and additional constructors
-### Additional Constructors
+### Moving and additional constructors
+#### Additional Constructors
 ```cpp
 // Copy
-BinaryBuffer(const BinaryBuffer& other) = delete;
+BinaryBuffer(const BinaryBuffer& other) = delete; // Can also be default
 
 // Move
-BinaryBuffer(BinaryBuffer&& other) = delete;
+BinaryBuffer(BinaryBuffer&& other) = delete; // Can also be default
 ```
-### Moving
-## Virtual functions
-## Numeric limits
+#### Moving
+### Virtual functions and VFTs
+### Numeric limits
 | Type                                                    | Availability    |
 |---------------------------------------------------------|-----------------|
 |   ```template<> class numeric_limits<bool>;```               |                 |
@@ -557,8 +675,8 @@ For example, to find the max value, you can use:
 int max_value = std::numeric_limits<int>::max;
 ```
 
-## PrintF
-### Format Specifiers
+### Printf
+#### Format Specifiers
 | Specifier | Type                               |
 |-----------|------------------------------------|
 | %c        | character                          |
@@ -572,3 +690,9 @@ int max_value = std::numeric_limits<int>::max;
 | %x        | number in hexadecimal (base 16)    |
 | %%        | print a percent sign               |
 | \%        | print a percent sign               |
+
+### Decltype
+### Constexpr
+### Noexcept
+### PIMPL
+### Concepts
